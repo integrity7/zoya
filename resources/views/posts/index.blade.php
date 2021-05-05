@@ -17,7 +17,7 @@
         <li class="nav-item offset-3">
           <a class="nav-link active" aria-current="page" href="/">Создать пост</a>
         </li>
-        
+
       </ul>
       <form class="d-flex">
         <input class="form-control me-2" type="search" placeholder="Найти пост..." aria-label="Search">
@@ -33,7 +33,7 @@
             <div class="card">
                 <div class="card-header"><h2>{{ $post->short_title }}</h2></div>
                 <div class="card-body">
-                  <div class="card-img" style="background-image: url({{ $post->img ?? asset('img/default.jpg;') }})"></div>
+                  <div class="card-img" style="background-image: url({{ $post->img ?? asset('/assets/images/default.jpg') }})"></div>
                 </div>
             </div>
         </div>
