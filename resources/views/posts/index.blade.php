@@ -33,7 +33,7 @@
             <div class="card">
                 <div class="card-header"><h2>{{ $post->short_title }}</h2></div>
                 <div class="card-body">
-                  <div class="card-img" style="background-image: url({{$post->img ?? asset('img/default.jpg')}});"></div>
+                  <div class="card-img" style="background-image: url({{ $post->img ?? asset('img/default.jpg;') }})"></div>
                 </div>
             </div>
         </div>
