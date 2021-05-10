@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect as FacadesRedirect;
+use Illuminate\Support\Str as SupportStr;
+use Redirect;
+use Storage;
+use Str;
 
 class PostController extends Controller
 {
@@ -12,8 +17,23 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if($request->search) {
+
+            
+            $posts = Post::join('users', 'author_id', '=', 'users.id')
+                ->where ('title', 'like', '%'.$request->search.'%')
+                ->orWhere ('descr', 'like', '%'.$request->search.'%')
+                ->orWhere ('name', 'like', '%'.$request->search.'%')
+                ->orderBy('posts.created_at', 'desc')
+                ->get();
+                return view('posts.index', compact('posts'));
+
+        }
+
+
+
         $posts = Post::join('users', 'author_id', '=', 'users.id')
                 ->orderBy('posts.created_at', 'desc')
                 ->paginate(4);
@@ -27,7 +47,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create');
     }
 
     /**
@@ -38,7 +58,21 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $post = new Post();
+        $post->title = $request->title;
+        $post->short_title = Str::length($request->title) > 30 ? Str::substr($request->title, start:0, length:30) . '...' : $request->title;
+        $post->descr = $request->descr;
+        $post->author_id = rand(1, 4);
+
+        if ($request->file(key:'img')) {
+            $path = Storage::putFile($request->file(key:'img'), path:'public');
+            $url = Storage::url($path);
+            $post->img = $url;
+
+        }
+        $post->save();
+
+        return redirect()->route('post.index')->with('success', 'Пост успешно создан!');
     }
 
     /**
