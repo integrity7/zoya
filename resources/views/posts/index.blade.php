@@ -24,7 +24,7 @@
                   <div class="card-img" style="background-image: url({{ $post->img ?? asset('/assets/images/default.jpg') }})"></div>
                 </div>
                 <div class="card-author">Автор: {{ $post->name }}</div>
-                <a href="#" class="btn btn-outline-primary">Посмотреть пост</a>
+                <a href="{{ route('post.show'), ['id' => $post->post_id] }}" class="btn btn-outline-primary">Посмотреть пост</a>
             </div>
         </div>
         @endforeach
