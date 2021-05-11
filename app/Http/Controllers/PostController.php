@@ -21,7 +21,7 @@ class PostController extends Controller
     {
         if($request->search) {
 
-            
+
             $posts = Post::join('users', 'author_id', '=', 'users.id')
                 ->where ('title', 'like', '%'.$request->search.'%')
                 ->orWhere ('descr', 'like', '%'.$request->search.'%')
@@ -35,6 +35,7 @@ class PostController extends Controller
 
 
         $posts = Post::join('users', 'author_id', '=', 'users.id')
+                ->select('posts.*', 'users.id as u_id', 'users.name')
                 ->orderBy('posts.created_at', 'desc')
                 ->paginate(4);
         return view('posts.index', compact('posts'));
@@ -60,16 +61,15 @@ class PostController extends Controller
     {
         $post = new Post();
         $post->title = $request->title;
-        $post->short_title = Str::length($request->title) > 30 ? Str::substr($request->title, start:0, length:30) . '...' : $request->title;
+        $post->short_title = Str::length($request->title) > 30 ? Str::substr($request->title, 0, 30).'...' : $request->title;
         $post->descr = $request->descr;
         $post->author_id = rand(1, 4);
 
-        if ($request->file(key:'img')) {
-            $path = Storage::putFile($request->file(key:'img'), path:'public');
-            $url = Storage::url($path);
-            $post->img = $url;
+        if ($request->hasFile('img')) {
+            $post->img = $request->file('img')->store('posts', 'public');
 
         }
+
         $post->save();
 
         return redirect()->route('post.index')->with('success', 'Пост успешно создан!');
@@ -81,10 +81,11 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        $post = Post::find($id);
-        return view('posts.show', compact('post'));
+//        $post = Post::find($id);
+
+        return view('posts.show');
     }
 
     /**
