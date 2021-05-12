@@ -81,11 +81,14 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
-//        $post = Post::find($id);
+        $post = Post::join('users', 'posts.author_id', '=', 'users.id')
+            ->select('posts.*', 'users.id as u_id', 'users.name as u_name')
+            ->where('posts.id', '=', $id)
+            ->firstOrFail();
 
-        return view('posts.show');
+        return view('posts.show', compact('post'));
     }
 
     /**
