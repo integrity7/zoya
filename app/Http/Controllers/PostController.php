@@ -15,30 +15,29 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        if($request->search) {
-
-
-            $posts = Post::join('users', 'author_id', '=', 'users.id')
-                ->where ('title', 'like', '%'.$request->search.'%')
-                ->orWhere ('descr', 'like', '%'.$request->search.'%')
-                ->orWhere ('name', 'like', '%'.$request->search.'%')
-                ->orderBy('posts.created_at', 'desc')
-                ->get();
-                return view('posts.index', compact('posts'));
-
-        }
-
-
-
-        $posts = Post::join('users', 'author_id', '=', 'users.id')
-                ->select('posts.*', 'users.id as u_id', 'users.name')
-                ->orderBy('posts.created_at', 'desc')
-                ->paginate(4);
-        return view('posts.index', compact('posts'));
+//        if($request->search) {
+//
+//
+//            $posts = Post::join('users', 'author_id', '=', 'users.id')
+//                ->where ('title', 'like', '%'.$request->search.'%')
+//                ->orWhere ('descr', 'like', '%'.$request->search.'%')
+//                ->orWhere ('name', 'like', '%'.$request->search.'%')
+//                ->orderBy('posts.created_at', 'desc')
+//                ->get();
+//                return view('posts.index', compact('posts'));
+//
+//        }
+//
+//
+//
+//        $posts = Post::join('users', 'author_id', '=', 'users.id')
+//                ->select('posts.*', 'users.id as u_id', 'users.name')
+//                ->orderBy('posts.created_at', 'desc')
+//                ->paginate(4);
+        return view('index');
     }
 
     /**
