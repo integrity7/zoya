@@ -97,7 +97,7 @@ img {
 
 .logotype {
     position: absolute;
-    left: 108px;
+    left: 123px;
     transform: translateY(15%);
 }
 
@@ -271,13 +271,19 @@ footer {
     color: #4D533C;
 }
 
-.footer-bottom {
+.footer-middle .container {
+    display: flex;
+}
+
+.address-item {
+    padding-top: 150px;
+    padding-left: 200px;
     text-align: center;
 }
 
-/*.address-item {
-    display: block;
-}*/
+.footer-bottom {
+    text-align: center;
+}
 
 
 .field {
